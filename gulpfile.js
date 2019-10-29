@@ -12,17 +12,16 @@ const wait 			= require('gulp-wait');
 const pug			= require('gulp-pug');
 const imagemin 		= require('gulp-imagemin');
 const babel 		= require('gulp-babel');
-const jsImport	 	= require('gulp-js-import');
 const uglify 		= require('gulp-uglify');
 
 let path = {
 	src: {
 		pug: [
 			"./src/index.pug",
-			"./src/pages/*.pug"
+			"./src/views/pages/*.pug"
 		],
 		style: 'src/style/main.sass',
-		scripts: 'src/js/**/*.js',
+		scripts: 'src/js/main.js',
 		img: 'src/img/*.+(jpg|jpeg|png|svg|ico|gif)',
 		fonts: 'src/fonts/**/*',
 	},
@@ -86,12 +85,11 @@ gulp.task('scripts', async function() {
 	return gulp.src(path.src.scripts)
 		.pipe(sourcemaps.init())
 		.pipe(include())
-		.pipe(jsImport({hideConsole: true}))
 		.pipe(babel({
 			presets: ['@babel/env']
 		}))
 		.pipe(sourcemaps.write())
-		.pipe(concat('main.js'))
+		// .pipe(concat('main.js'))
 		.pipe(gulp.dest(path.dist.scripts))
 		.pipe(browserSync.reload({stream: true}));
 });
@@ -124,7 +122,7 @@ gulp.task('build:scripts', async function() {
 		.pipe(babel({
 			presets: ['@babel/env']
 		}))
-		.pipe(concat('main.js'))
+		// .pipe(concat('main.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest(path.dist.scripts))
 		.pipe(browserSync.reload({stream: true}));
@@ -149,7 +147,7 @@ gulp.task('folder', async function () {
         .pipe(gulp.dest('src/components/'+ name))
 });
 
-gulp.task('files', async function() {
+gulp.task('files', async function(name) {
 	if (!level) {
 		fs.writeFileSync('src/components/' + name + '/' + name + '.pug','')
 		fs.writeFileSync('src/components/' + name + '/' + name + '.scss','')
@@ -167,9 +165,8 @@ gulp.task('files', async function() {
 	}
 });
 
-gulp.task('make',  function (done) {
-	runSequence('folder','files');
-	done();
+gulp.task('make',  function () {
+	runSequence(gulp.series(gulp.parallel('folder','files')));
 });
 
 gulp.task('watch', gulp.series('clean','browser-sync', 'pug', 'style', 'scripts', 'img', 'fonts', function() {
