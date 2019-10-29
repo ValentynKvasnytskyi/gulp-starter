@@ -5,7 +5,7 @@ npm i
 gulp
 
 ### Build
-gulp deploy
+gulp build
 
 ### Create component
 gulp make --componentName--option
