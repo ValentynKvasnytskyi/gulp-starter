@@ -6,8 +6,7 @@ const sourcemaps    = require('gulp-sourcemaps');
 const csso   		= require('gulp-csso');
 const include     	= require('gulp-include');
 const del     		= require('del');
-const runSequence 	= require('run-sequence').use(gulp);
-const fs 			= require('fs');
+const fs 			= require('fs-extra');
 const wait 			= require('gulp-wait');
 const pug			= require('gulp-pug');
 const imagemin 		= require('gulp-imagemin');
@@ -20,7 +19,7 @@ let path = {
 			"./src/index.pug",
 			"./src/views/pages/*.pug"
 		],
-		style: 'src/style/main.sass',
+		style: 'src/style/main.scss',
 		scripts: 'src/js/main.js',
 		img: 'src/img/*.+(jpg|jpeg|png|svg|ico|gif)',
 		fonts: 'src/fonts/**/*',
@@ -147,26 +146,22 @@ gulp.task('folder', async function () {
         .pipe(gulp.dest('src/components/'+ name))
 });
 
-gulp.task('files', async function(name) {
+gulp.task('make', async function() {
 	if (!level) {
-		fs.writeFileSync('src/components/' + name + '/' + name + '.pug','')
-		fs.writeFileSync('src/components/' + name + '/' + name + '.scss','')
+		fs.createFileSync('src/components/' + name + '/' + name + '.pug');
+		fs.createFileSync('src/components/' + name + '/' + name + '.scss')
 	} else if (level == 1) {
-		fs.writeFileSync('src/components/' + name + '/' + name + '.pug','')
-		fs.writeFileSync('src/components/' + name + '/' + name + '.sass','')
+		fs.createFileSync('src/components/' + name + '/' + name + '.pug','');
+		fs.createFileSync('src/components/' + name + '/' + name + '.sass','');
 	} else if (level == 2) {
-		fs.writeFileSync('src/components/' + name + '/' + name + '.pug','')
-		fs.writeFileSync('src/components/' + name + '/' + name + '.scss','')
-		fs.writeFileSync('src/components/' + name + '/' + name + '.js','')
+		fs.createFileSync('src/components/' + name + '/' + name + '.pug','');
+		fs.createFileSync('src/components/' + name + '/' + name + '.scss','');
+		fs.createFileSync('src/components/' + name + '/' + name + '.js','');
 	} else if (level == 3) {
-		fs.writeFileSync('src/components/' + name + '/' + name + '.pug','')
-		fs.writeFileSync('src/components/' + name + '/' + name + '.sass','')
-		fs.writeFileSync('src/components/' + name + '/' + name + '.js','')
+		fs.createFileSync('src/components/' + name + '/' + name + '.pug','');
+		fs.createFileSync('src/components/' + name + '/' + name + '.sass','');
+		fs.createFileSync('src/components/' + name + '/' + name + '.js','');
 	}
-});
-
-gulp.task('make',  function () {
-	runSequence(gulp.series(gulp.parallel('folder','files')));
 });
 
 gulp.task('watch', gulp.series('clean','browser-sync', 'pug', 'style', 'scripts', 'img', 'fonts', function() {
