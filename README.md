@@ -29,7 +29,7 @@ Import CSS files to main.scss
 
 <hr>
 
-###JavaScript
+### JavaScript
 Import JS files to main.js via <br>
 
 " //=include relative/path/to/file.js "
@@ -43,3 +43,5 @@ gulp make --componentName--option
 * option == 1     --html/sass 
 * option == 2     --html/scss/js 
 * option == 3     --html/sass/js 
+
+# Enjoy =)
