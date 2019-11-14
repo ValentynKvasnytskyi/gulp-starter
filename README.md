@@ -39,9 +39,9 @@ Import JS files to main.js via <br>
 ### Create component
 gulp make --componentName--option
 
-* without option  --html/scss
-* option == 1     --html/sass 
-* option == 2     --html/scss/js 
-* option == 3     --html/sass/js 
+* without option  --pug/scss
+* option == 1     --pug/sass 
+* option == 2     --pug/scss/js 
+* option == 3     --pug/sass/js 
 
 # Enjoy =)
